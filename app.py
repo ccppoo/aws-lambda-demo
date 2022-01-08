@@ -28,7 +28,7 @@ def __send_email(msg: str) -> None:
     # Create Email
     mail_from = gmail_user
     mail_to = gmail_user
-    mail_subject = f'Weather Today {datetime.today().strftime("%m/%d/%Y")}'
+    mail_subject = f'Weather for Today {datetime.today().strftime("%m/%d/%Y")}'
     mail_message = f'Subject: {mail_subject}\n\n{msg}'
 
     # Send Email
@@ -38,7 +38,7 @@ def __send_email(msg: str) -> None:
     server.sendmail(mail_from, mail_to, mail_message)
     server.close()
 
-
+# 람다 핸들러
 def handler(event, context):
     response = requests.get(url.format(
         lat=lat,
@@ -48,6 +48,11 @@ def handler(event, context):
     ))
 
     data = response.json()
+    # if data['code'] == 401:
+    #     print(data['message'])
+    #     print('1. Did you signed up for OpenWeather API?')
+    #     print("2. If you did, it looks like your API key is not active, it could take for hours")
+    #     return
 
     rain_conditions = ['rain', 'thunderstorm', 'drizzle']
     snow_conditions = ['snow']
